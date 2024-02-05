@@ -15,7 +15,7 @@ public struct TextToSpeechView: View {
 
     @State private var prompt: String = ""
     @State private var voice: SpeechCreateParams.Voice = .alloy
-    @State private var speed: Double = 1
+    @State private var speed: Double = SpeechCreateParams.Speed.normal.rawValue
     @State private var responseFormat: SpeechCreateParams.ResponseFormat = .mp3
     @State private var showsModelSelectionSheet = false
     @State private var selectedSpeechModel: String = SpeechModel.tts_1.rawValue

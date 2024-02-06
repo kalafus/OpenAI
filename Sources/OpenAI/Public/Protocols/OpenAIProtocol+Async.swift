@@ -13,7 +13,7 @@ import Foundation
 @available(watchOS 6.0, *)
 public extension OpenAIProtocol {
 
-    func images(
+    func images_generate(
         query: ImageGenerateParams
     ) async throws -> ImagesResponse {
         try await withCheckedThrowingContinuation { continuation in
@@ -28,7 +28,7 @@ public extension OpenAIProtocol {
         }
     }
 
-    func imageEdits(
+    func images_edit(
         query: ImageEditParams
     ) async throws -> ImagesResponse {
         try await withCheckedThrowingContinuation { continuation in
@@ -43,7 +43,7 @@ public extension OpenAIProtocol {
         }
     }
 
-    func imageVariations(
+    func images_create_variation(
         query: ImageCreateVariationParams
     ) async throws -> ImagesResponse {
         try await withCheckedThrowingContinuation { continuation in
@@ -58,7 +58,7 @@ public extension OpenAIProtocol {
         }
     }
 
-    func embeddings(
+    func embeddings_create(
         query: EmbeddingCreateParams
     ) async throws -> EmbeddingResponse {
         try await withCheckedThrowingContinuation { continuation in
@@ -73,7 +73,7 @@ public extension OpenAIProtocol {
         }
     }
 
-    func chats(
+    func chat_completions(
         query: ChatCompletionCreateParams
     ) async throws -> ChatCompletion {
         try await withCheckedThrowingContinuation { continuation in
@@ -94,7 +94,7 @@ public extension OpenAIProtocol {
         }
     }
 
-    func chatsStream(
+    func chat_with_streaming_response_completions(
         query: ChatCompletionCreateParams
     ) -> AsyncThrowingStream<ChatCompletionChunk, Error> {
         return AsyncThrowingStream { continuation in
@@ -106,7 +106,7 @@ public extension OpenAIProtocol {
         }
     }
 
-    func model(
+    func models_retreive(
         query: ModelCreateParams
     ) async throws -> Model {
         try await withCheckedThrowingContinuation { continuation in
@@ -121,7 +121,7 @@ public extension OpenAIProtocol {
         }
     }
 
-    func deleteModel(
+    func models_delete(
         query: ModelCreateParams
     ) async throws -> ModelDeleted {
         try await withCheckedThrowingContinuation { continuation in
@@ -136,7 +136,7 @@ public extension OpenAIProtocol {
         }
     }
 
-    func models() async throws -> ModelsResponse {
+    func models_list() async throws -> ModelsResponse {
         try await withCheckedThrowingContinuation { continuation in
             models_list() { result in
                 switch result {
@@ -149,7 +149,7 @@ public extension OpenAIProtocol {
         }
     }
 
-    func moderations(
+    func moderations_create(
         query: ModerationCreateParams
     ) async throws -> ModerationCreateResponse {
         try await withCheckedThrowingContinuation { continuation in
@@ -164,7 +164,7 @@ public extension OpenAIProtocol {
         }
     }
 
-    func audioCreateSpeech(
+    func audio_speech_create(
         query: SpeechCreateParams
     ) async throws -> Speech {
         try await withCheckedThrowingContinuation { continuation in
@@ -179,7 +179,7 @@ public extension OpenAIProtocol {
         }
     }
 
-    func audioTranscriptions(
+    func audio_transcriptions_create(
         query: TranscriptionCreateParams
     ) async throws -> Transcription {
         try await withCheckedThrowingContinuation { continuation in
@@ -194,7 +194,7 @@ public extension OpenAIProtocol {
         }
     }
 
-    func audioTranslations(
+    func audio_translations_create(
         query: TranslationCreateParams
     ) async throws -> Translation {
         try await withCheckedThrowingContinuation { continuation in

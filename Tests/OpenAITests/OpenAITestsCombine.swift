@@ -36,7 +36,7 @@ final class OpenAITestsCombine: XCTestCase {
             .init(finish_reason: "baz2", index: 0, logprobs: nil, message: .assistant(.init(content: "bar2")))
         ], created: 100, model: ChatModel.gpt_3_5_turbo.rawValue, object: "foo", system_fingerprint: nil, usage: .init(completion_tokens: 200, prompt_tokens: 100, total_tokens: 300))
        try self.stub(result: chatResult)
-       let result = try awaitPublisher(openAI.chats(query: query))
+       let result = try awaitPublisher(openAI.chat_completions(query: query))
        XCTAssertEqual(result, chatResult)
     }
 
@@ -49,7 +49,7 @@ final class OpenAITestsCombine: XCTestCase {
         ], model: EmbeddingsModel.text_embedding_ada_002.rawValue, object: "embeddings", usage: .init(prompt_tokens: 10, total_tokens: 10))
         try self.stub(result: embeddingsResult)
 
-        let result = try awaitPublisher(openAI.embeddings(query: query))
+        let result = try awaitPublisher(openAI.embeddings_create(query: query))
         XCTAssertEqual(result, embeddingsResult)
     }
 
@@ -58,7 +58,7 @@ final class OpenAITestsCombine: XCTestCase {
         let modelResult = Model(id: ChatModel.gpt_3_5_turbo_1106.rawValue, created: 200000000, object: "model", owned_by: "organization-owner")
         try self.stub(result: modelResult)
 
-        let result = try awaitPublisher(openAI.model(query: query))
+        let result = try awaitPublisher(openAI.models_retreive(query: query))
         XCTAssertEqual(result, modelResult)
     }
 
@@ -66,7 +66,7 @@ final class OpenAITestsCombine: XCTestCase {
         let listModelsResult = ModelsResponse(data: [], object: "model")
         try self.stub(result: listModelsResult)
 
-        let result = try awaitPublisher(openAI.models())
+        let result = try awaitPublisher(openAI.models_list())
         XCTAssertEqual(result, listModelsResult)
     }
 
@@ -79,7 +79,7 @@ final class OpenAITestsCombine: XCTestCase {
         ])
         try self.stub(result: moderationsResult)
 
-        let result = try awaitPublisher(openAI.moderations(query: query))
+        let result = try awaitPublisher(openAI.moderations_create(query: query))
         XCTAssertEqual(result, moderationsResult)
     }
 
@@ -89,7 +89,7 @@ final class OpenAITestsCombine: XCTestCase {
         let transcriptionResult = Transcription(text: "Hello, world!")
         try self.stub(result: transcriptionResult)
 
-        let result = try awaitPublisher(openAI.audioTranscriptions(query: query))
+        let result = try awaitPublisher(openAI.audio_transcriptions_create(query: query))
         XCTAssertEqual(result, transcriptionResult)
     }
 
@@ -99,7 +99,7 @@ final class OpenAITestsCombine: XCTestCase {
         let transcriptionResult = Translation(text: "Hello, world!")
         try self.stub(result: transcriptionResult)
 
-        let result = try awaitPublisher(openAI.audioTranslations(query: query))
+        let result = try awaitPublisher(openAI.audio_translations_create(query: query))
         XCTAssertEqual(result, transcriptionResult)
     }
 }

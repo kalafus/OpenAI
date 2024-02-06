@@ -29,7 +29,7 @@ class OpenAITests: XCTestCase {
             .init(b64_json: nil, revised_prompt: nil, url: "http://foo.bar")
         ])
         try self.stub(result: imagesResult)
-        let result = try await openAI.images(query: query)
+        let result = try await openAI.images_generate(query: query)
         XCTAssertEqual(result, imagesResult)
     }
 
@@ -38,7 +38,7 @@ class OpenAITests: XCTestCase {
         let inError = APIError(message: "foo", type: "bar", param: "baz", code: "100")
         self.stub(error: inError)
 
-        let apiError: APIError = try await XCTExpectError { try await openAI.images(query: query) }
+        let apiError: APIError = try await XCTExpectError { try await openAI.images_generate(query: query) }
         XCTAssertEqual(inError, apiError)
     }
 
@@ -48,7 +48,7 @@ class OpenAITests: XCTestCase {
             .init(b64_json: nil, revised_prompt: nil, url: "http://foo.bar")
         ])
         try self.stub(result: imagesResult)
-        let result = try await openAI.imageEdits(query: query)
+        let result = try await openAI.images_edit(query: query)
         XCTAssertEqual(result, imagesResult)
     }
 
@@ -57,7 +57,7 @@ class OpenAITests: XCTestCase {
         let inError = APIError(message: "foo", type: "bar", param: "baz", code: "100")
         self.stub(error: inError)
 
-        let apiError: APIError = try await XCTExpectError { try await openAI.imageEdits(query: query) }
+        let apiError: APIError = try await XCTExpectError { try await openAI.images_edit(query: query) }
         XCTAssertEqual(inError, apiError)
     }
 
@@ -67,7 +67,7 @@ class OpenAITests: XCTestCase {
             .init(b64_json: nil, revised_prompt: nil, url: "http://foo.bar")
         ])
         try self.stub(result: imagesResult)
-        let result = try await openAI.imageVariations(query: query)
+        let result = try await openAI.images_create_variation(query: query)
         XCTAssertEqual(result, imagesResult)
     }
 
@@ -76,7 +76,7 @@ class OpenAITests: XCTestCase {
         let inError = APIError(message: "foo", type: "bar", param: "baz", code: "100")
         self.stub(error: inError)
 
-        let apiError: APIError = try await XCTExpectError { try await openAI.imageVariations(query: query) }
+        let apiError: APIError = try await XCTExpectError { try await openAI.images_create_variation(query: query) }
         XCTAssertEqual(inError, apiError)
     }
 
@@ -92,7 +92,7 @@ class OpenAITests: XCTestCase {
         ], created: 100, model: ChatModel.gpt_3_5_turbo.rawValue, object: "foo", system_fingerprint: nil, usage: .init(completion_tokens: 200, prompt_tokens: 100, total_tokens: 300))
        try self.stub(result: chatResult)
 
-       let result = try await openAI.chats(query: query)
+       let result = try await openAI.chat_completions(query: query)
        XCTAssertEqual(result, chatResult)
     }
 
@@ -113,7 +113,7 @@ class OpenAITests: XCTestCase {
          .init(finish_reason: "baz2", index: 0, logprobs: nil, message: .assistant(.init(content: "bar2")))
          ], created: 100, model: ChatModel.gpt_3_5_turbo.rawValue, object: "foo", system_fingerprint: nil, usage: .init(completion_tokens: 200, prompt_tokens: 100, total_tokens: 300))
         try self.stub(result: chatResult)
-        let result = try await openAI.chats(query: query)
+        let result = try await openAI.chat_completions(query: query)
         XCTAssertEqual(result, chatResult)
     }
 
@@ -125,7 +125,7 @@ class OpenAITests: XCTestCase {
         let inError = APIError(message: "foo", type: "bar", param: "baz", code: "100")
         self.stub(error: inError)
 
-        let apiError: APIError = try await XCTExpectError { try await openAI.chats(query: query) }
+        let apiError: APIError = try await XCTExpectError { try await openAI.chat_completions(query: query) }
         XCTAssertEqual(inError, apiError)
     }
 
@@ -144,7 +144,7 @@ class OpenAITests: XCTestCase {
             usage: .init(prompt_tokens: 10, total_tokens: 10))
         try self.stub(result: embeddingsResult)
 
-        let result = try await openAI.embeddings(query: query)
+        let result = try await openAI.embeddings_create(query: query)
         XCTAssertEqual(result, embeddingsResult)
     }
 
@@ -153,7 +153,7 @@ class OpenAITests: XCTestCase {
         let inError = APIError(message: "foo", type: "bar", param: "baz", code: "100")
         self.stub(error: inError)
 
-        let apiError: APIError = try await XCTExpectError { try await openAI.embeddings(query: query) }
+        let apiError: APIError = try await XCTExpectError { try await openAI.embeddings_create(query: query) }
         XCTAssertEqual(inError, apiError)
     }
 
@@ -168,7 +168,7 @@ class OpenAITests: XCTestCase {
         let modelResult = Model(id: ChatModel.gpt_3_5_turbo.rawValue, created: 999, object: "model", owned_by: "openai")
         try self.stub(result: modelResult)
 
-        let result = try await openAI.model(query: query)
+        let result = try await openAI.models_retreive(query: query)
         XCTAssertEqual(result, modelResult)
     }
 
@@ -177,7 +177,7 @@ class OpenAITests: XCTestCase {
         let inError = APIError(message: "foo", type: "bar", param: "baz", code: "100")
         self.stub(error: inError)
 
-        let apiError: APIError = try await XCTExpectError { try await openAI.model(query: query) }
+        let apiError: APIError = try await XCTExpectError { try await openAI.models_retreive(query: query) }
         XCTAssertEqual(inError, apiError)
     }
 
@@ -189,14 +189,14 @@ class OpenAITests: XCTestCase {
         ], object: "list")
         try self.stub(result: listModelsResult)
 
-        let result = try await openAI.models()
+        let result = try await openAI.models_list()
         XCTAssertEqual(result, listModelsResult)
     }
 
     func testListModelsError() async throws {
         let inError = APIError(message: "foo", type: "bar", param: "baz", code: "100")
         self.stub(error: inError)
-        let apiError: APIError = try await XCTExpectError { try await openAI.models() }
+        let apiError: APIError = try await XCTExpectError { try await openAI.models_list() }
         XCTAssertEqual(inError, apiError)
     }
 
@@ -210,7 +210,7 @@ class OpenAITests: XCTestCase {
         ])
         try self.stub(result: moderationsResult)
 
-        let result = try await openAI.moderations(query: query)
+        let result = try await openAI.moderations_create(query: query)
         XCTAssertEqual(result, moderationsResult)
     }
 
@@ -219,7 +219,7 @@ class OpenAITests: XCTestCase {
         let inError = APIError(message: "foo", type: "bar", param: "baz", code: "100")
         self.stub(error: inError)
 
-        let apiError: APIError = try await XCTExpectError { try await openAI.moderations(query: query) }
+        let apiError: APIError = try await XCTExpectError { try await openAI.moderations_create(query: query) }
         XCTAssertEqual(inError, apiError)
     }
 
@@ -228,7 +228,7 @@ class OpenAITests: XCTestCase {
         let inError = APIError(message: "foo", type: "bar", param: "baz", code: "100")
         self.stub(error: inError)
 
-        let apiError: APIError = try await XCTExpectError { try await openAI.audioCreateSpeech(query: query) }
+        let apiError: APIError = try await XCTExpectError { try await openAI.audio_speech_create(query: query) }
         XCTAssertEqual(inError, apiError)
     }
 
@@ -238,7 +238,7 @@ class OpenAITests: XCTestCase {
         let transcriptionResult = Transcription(text: "Hello, world!")
         try self.stub(result: transcriptionResult)
 
-        let result = try await openAI.audioTranscriptions(query: query)
+        let result = try await openAI.audio_transcriptions_create(query: query)
         XCTAssertEqual(result, transcriptionResult)
     }
 
@@ -248,7 +248,7 @@ class OpenAITests: XCTestCase {
         let inError = APIError(message: "foo", type: "bar", param: "baz", code: "100")
         self.stub(error: inError)
 
-        let apiError: APIError = try await XCTExpectError { try await openAI.audioTranscriptions(query: query) }
+        let apiError: APIError = try await XCTExpectError { try await openAI.audio_transcriptions_create(query: query) }
         XCTAssertEqual(inError, apiError)
     }
 
@@ -258,7 +258,7 @@ class OpenAITests: XCTestCase {
         let transcriptionResult = Translation(text: "Hello, world!")
         try self.stub(result: transcriptionResult)
 
-        let result = try await openAI.audioTranslations(query: query)
+        let result = try await openAI.audio_translations_create(query: query)
         XCTAssertEqual(result, transcriptionResult)
     }
 
@@ -268,7 +268,7 @@ class OpenAITests: XCTestCase {
         let inError = APIError(message: "foo", type: "bar", param: "baz", code: "100")
         self.stub(error: inError)
 
-        let apiError: APIError = try await XCTExpectError { try await openAI.audioTranslations(query: query) }
+        let apiError: APIError = try await XCTExpectError { try await openAI.audio_translations_create(query: query) }
         XCTAssertEqual(inError, apiError)
     }
 
